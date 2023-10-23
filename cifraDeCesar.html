@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cifra de César</title>
+
+    <style>
+        body {
+            background-color: gray;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        section {
+            background-color: aliceblue;
+            justify-content: center;
+            border: 0.5rem solid black;
+            text-align: center;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+    </style>
+</head>
+
+<body>
+    <main>
+        <section>
+            <h1>Cifra de César</h1>
+            <label for="idTextArea">Digite uma frase:</label><br>
+            <textarea name="nameTextArea" id="idTextArea" cols="30" rows="1"></textarea><br><br>
+
+            <input type="radio" id="idCriptografado" name="nameEstadoCifra" value="criptografado" checked>
+            <label for="idCriptografado">Criptografar</label><br>
+            <input type="radio" id="idDescriptografado" name="nameEstadoCifra" value="descriptografado">
+            <label for="idDescriptografado">Descriptografar</label><br><br>
+
+            <label for="idChave">Digite a Chave de criptografia:</label><br>
+            <input type="text" id="idChave" name="nameChave"><br><br>
+
+            
+            <label id="idSaida" value="Saida"></label>Saida <br><br>
+
+            <input type="button" id="idBtConfirmar" name="nameBtConfirmar" value="Confirmar">
+
+        </section>
+    </main>
+
+    <script>
+        let botao = document.getElementById("idBtConfirmar")
+        botao.onclick = function(){
+
+        }
+    </script>
+</body>
+
+</html>
