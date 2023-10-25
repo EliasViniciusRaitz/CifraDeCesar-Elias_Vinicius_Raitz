@@ -7,6 +7,7 @@
     <title>Cifra de César</title>
 
     <style>
+
         body {
             background-color: gray;
             display: flex;
@@ -21,6 +22,7 @@
             justify-content: center;
             border: 0.5rem solid black;
             text-align: center;
+            padding: 1%;
         }
 
         h1 {
@@ -30,7 +32,7 @@
         textarea {
             resize: none;
         }
-
+        
     </style>
 </head>
 
@@ -39,29 +41,116 @@
         <section>
             <h1>Cifra de César</h1>
             <label for="idTextArea">Digite uma frase:</label><br>
-            <textarea name="nameTextArea" id="idTextArea" cols="30" rows="1"></textarea><br><br>
+            <textarea name="nameTextArea" id="idTextArea" cols="20" rows="1" required></textarea><br><br>
 
-            <input type="radio" id="idCriptografado" name="nameEstadoCifra" value="criptografado" checked>
+            <input type="radio" id="idCriptografado" name="nameEstadoCifra" value="criptografar" checked>
             <label for="idCriptografado">Criptografar</label><br>
-            <input type="radio" id="idDescriptografado" name="nameEstadoCifra" value="descriptografado">
+            <input type="radio" id="idDescriptografado" name="nameEstadoCifra" value="descriptografar">
             <label for="idDescriptografado">Descriptografar</label><br><br>
 
             <label for="idChave">Digite a Chave de criptografia:</label><br>
-            <input type="text" id="idChave" name="nameChave"><br><br>
+            <input type="text" id="idChave" name="nameChave" required><br><br>
 
-            
-            <label id="idSaida" value="Saida"></label>Saida <br><br>
 
-            <input type="button" id="idBtConfirmar" name="nameBtConfirmar" value="Confirmar">
+            <label</label>Saída: <br><br>
+                <output id="idSaida"></output>
+
+                <input style="margin: 10%;" type="button" id="idBtConfirmar" name="nameBtConfirmar" value="Confirmar">
 
         </section>
     </main>
 
     <script>
         let botao = document.getElementById("idBtConfirmar")
-        botao.onclick = function(){
+        botao.onclick = function () {
 
+            //Inicializando Arrays
+            let fraseDigitadaAscii = []
+            let fraseCriptografada = []
+            let fraseDescriptografada = []
+            let alfabeto = ["0", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+
+            //Pegando componentes da tela 
+            let estadoCifra = document.querySelector("input[name=nameEstadoCifra]:checked").value
+            let chaveCriptografia = document.getElementById("idChave").value
+            let fraseDigitada = document.getElementById("idTextArea").value
+            let fraseDigitadaMaiuscula = fraseDigitada.toUpperCase()
+
+            //Caso a chave for letra, transformando em número
+            if (isNaN(chaveCriptografia)) {
+                let chaveCriptografiaMaiuscula
+                chaveCriptografiaMaiuscula = chaveCriptografia.toUpperCase()
+
+                //Adicionando index a chave de criptografia cuju é uma letra
+                for (let i = 1; i < 27; i++) {
+                    if (chaveCriptografiaMaiuscula == alfabeto[i]) {
+                        chaveCriptografia = i
+                    }
+                }
+            }
+
+            //Transformando a frase Digitada em um Array ASCII
+            for (let i = 0; i < fraseDigitadaMaiuscula.length; i++) {
+                fraseDigitadaAscii.push(fraseDigitadaMaiuscula.charCodeAt(i))
+            }
+
+            // Radio Buton Criptografar escolhido
+            if (estadoCifra == "criptografar") {
+
+                //Criptografando o Array conforme a chave de Criptografia
+                for (let i = 0; i < fraseDigitadaAscii.length; i++) {
+                    //Considerando espaços
+                    if (fraseDigitadaAscii[i] != 32) {
+                        let letraAscii = Number(fraseDigitadaAscii[i]) + Number(chaveCriptografia)
+                        //Caso letraAscii passar de 90, volta ao começo do alfabeto em ascii, achando o valor correspondente
+                        if (letraAscii > 90) {
+                            let passou90 = letraAscii % 90
+                            letraAscii = 64 + passou90
+                        }
+                        fraseCriptografada.push(letraAscii)
+                    } else {
+                        fraseCriptografada.push(32)
+                    }
+
+                }
+
+                //Transformando o Array de ASCII em uma String criptografada
+                let fraseCriptografadaString = ""
+                for (let i = 0; i < fraseCriptografada.length; i++) {
+                    fraseCriptografadaString = fraseCriptografadaString + String.fromCharCode(fraseCriptografada[i])
+                }
+
+                document.getElementById("idSaida").value = fraseCriptografadaString
+
+            } else {
+
+                    //Descriptografando o Array conforme a chave de Criptografia
+                for (let i = 0; i < fraseDigitadaAscii.length; i++) {
+                    //Considerando espaços
+                    if (fraseDigitadaAscii[i] != 32) {
+                        let letraAscii = Number(fraseDigitadaAscii[i]) - Number(chaveCriptografia)
+                        //Caso letraAscii for menor que 65, vai para o final do alfabeto em ascii, achando o valor correspondente                      
+                        if (letraAscii < 65) {
+                            let menor65 = 65 % letraAscii 
+                            letraAscii = 91 - menor65
+                        }
+                        fraseDescriptografada.push(letraAscii)
+                    } else {
+                        fraseDescriptografada.push(32)
+                    }
+
+                }
+
+                //Transformando o Array de ASCII criptografado em uma String descriptografada
+                let fraseDescriptografadaString = ""
+                for (let i = 0; i < fraseDescriptografada.length; i++) {
+                    fraseDescriptografadaString = fraseDescriptografadaString + String.fromCharCode(fraseDescriptografada[i])
+                }
+
+                document.getElementById("idSaida").value = fraseDescriptografadaString
+            }
         }
+
     </script>
 </body>
 
